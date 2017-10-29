@@ -11,7 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.lenovo.task_application.Base;
 import com.example.lenovo.task_application.R;
+import com.example.lenovo.task_application.R2;
 import com.example.lenovo.task_application.data.Task;
 import com.example.lenovo.task_application.presenters.tasklist.ITaskListView;
 import com.example.lenovo.task_application.presenters.tasklist.TaskListPresenter;
@@ -20,49 +22,74 @@ import com.example.lenovo.task_application.presenters.tasklist.adapter.TaskListA
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskList extends AppCompatActivity implements ITaskListView,
-        View.OnClickListener,
-        TaskListAdapter.OnCustomItemClickListener{
+import javax.inject.Inject;
 
-    private FloatingActionButton fab;
-    private Toolbar toolbar;
-    private TextView noData;
-    private RecyclerView mRecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class TaskList extends AppCompatActivity implements ITaskListView,
+        TaskListAdapter.OnCustomItemClickListener {
+
+    @BindView(R2.id.act_task_list_fabAddEdit)
+    FloatingActionButton fab;
+
+    @BindView(R2.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R2.id.act_task_list_tvNoData)
+    TextView noData;
+
+    @BindView(R2.id.act_task_list_rvTaskList)
+    RecyclerView mRecyclerView;
+
+    @Inject
+    TaskListPresenter taskListPresenter;
+
     private List<Task> taskList = new ArrayList<>();
-    private TaskListPresenter taskListPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
-        taskListPresenter = new TaskListPresenter(this);
+        ((Base) getApplication()).getComponent().inject(this);
 
-        fab = (FloatingActionButton) findViewById(R.id.act_task_list_fabAddEdit);
-        fab.setOnClickListener(this);
+        ButterKnife.bind(this);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        noData = (TextView) findViewById(R.id.act_task_list_tvNoData);
-
-        mRecyclerView = (RecyclerView) findViewById(R.id.act_task_list_rvTaskList);
-
+        taskListPresenter.setiTaskListView(this);
 
         taskListPresenter.onAttachedToolbar();
 
     }
 
+    /**
+     * Reloads task
+     * on resume activity (refresh)
+     */
     @Override
     protected void onResume() {
         super.onResume();
         taskListPresenter.onResumeLoadData(this);
     }
 
+    /**
+     * Pops the activity which
+     * has the add / edit function
+     */
     @Override
     public void showAddEditActivity() {
         Intent intent = new Intent(this, TaskAddEdit.class);
         startActivity(intent);
     }
 
+    /**
+     * Pops Add Edit activity which
+     * passes the id to it so
+     * it can enable edit mode
+     * @param id - task's id
+     */
     @Override
     public void showAddEditActivityWithData(String id) {
         Intent intent = new Intent(this, TaskAddEdit.class);
@@ -70,21 +97,34 @@ public class TaskList extends AppCompatActivity implements ITaskListView,
         startActivity(intent);
     }
 
+    /**
+     * Setups the toolbar
+     * title
+     */
     @Override
     public void showToolbarTitle() {
         setSupportActionBar(toolbar);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle("My Tasks");
         }
 
     }
 
+    /**
+     * Shows that there is
+     * still no data
+     */
     @Override
     public void showLodedTaskNoData() {
         noData.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Shows the list of
+     * tasks to user
+     * @param taskList - contains all the tasks of user (saved)
+     */
     @Override
     public void showLoadedWithData(List<Task> taskList) {
 
@@ -96,16 +136,21 @@ public class TaskList extends AppCompatActivity implements ITaskListView,
         mRecyclerView.setAdapter(new TaskListAdapter(this.taskList, this));
     }
 
-    @Override
-    public void onClick(View view) {
+    /**
+     * On clicked
+     * the floating action button
+     */
+    @OnClick(R2.id.act_task_list_fabAddEdit)
+    void onClickEdit() {
 
-        if (view.getId() == R.id.act_task_list_fabAddEdit) {
-            taskListPresenter.onClickedAddEdit();
-        }
-
+        taskListPresenter.onClickedAddEdit();
     }
 
-
+    /**
+     * On click one of the
+     * task in the list
+     * @param task - created task by user
+     */
     @Override
     public void onItemClicked(Task task) {
 

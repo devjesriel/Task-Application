@@ -2,6 +2,8 @@ package com.example.lenovo.task_application.data;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+
 /**
  * Created by Lenovo on 28/7/2017.
  */

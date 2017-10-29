@@ -8,6 +8,8 @@ import com.example.lenovo.task_application.presenters.tasklist.interactor.TaskLi
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by Lenovo on 28/7/2017.
  */
@@ -17,11 +19,14 @@ public class TaskListPresenter implements ITaskListPresenter, ITaskListInteracto
     private ITaskListView iTaskListView;
     private TaskListInteractor taskListInteractor;
 
-    public TaskListPresenter(ITaskListView iTaskListView) {
-        this.iTaskListView = iTaskListView;
+    @Inject
+    public TaskListPresenter() {
         this.taskListInteractor = new TaskListInteractor(this);
     }
 
+    public void setiTaskListView(ITaskListView iTaskListView) {
+        this.iTaskListView = iTaskListView;
+    }
 
     @Override
     public void onClickedAddEdit() {

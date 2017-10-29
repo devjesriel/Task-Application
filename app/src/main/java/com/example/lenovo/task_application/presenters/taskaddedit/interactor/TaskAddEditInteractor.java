@@ -18,11 +18,18 @@ public class TaskAddEditInteractor implements ITaskAddEditInteractor, ITaskLocal
         this.result = iTaskAddEditInteractorResult;
     }
 
+    /**
+     * Creates new task and add it
+     * to local database
+     * @param context
+     * @param task
+     */
     @Override
     public void addNewTask(Context context, Task task) {
         TaskLocalDataSource.getInstance(context).addTask(task);
         result.onAddedTask();
     }
+
 
     @Override
     public void onSingleTaskLoaded(Task task) {
@@ -34,17 +41,35 @@ public class TaskAddEditInteractor implements ITaskAddEditInteractor, ITaskLocal
         result.onLoadedNullTask();
     }
 
+    /**
+     * Loads existing task
+     * for user to edit
+     * @param context
+     * @param id - task's ID
+     */
     @Override
     public void loadExistingTask(Context context, String id) {
         TaskLocalDataSource.getInstance(context).getTask(id, this);
     }
 
+    /**
+     * Modifies existing task
+     * @param context
+     * @param task - new Content of task
+     * @param taskId - taskId of existing task
+     */
     @Override
     public void editExistingTask(Context context, Task task, String taskId) {
         TaskLocalDataSource.getInstance(context).editTask(task, taskId);
         result.onEditedTask();
     }
 
+    /**
+     * Deletes existing
+     * task
+     * @param context
+     * @param taskId - taskId of existing task
+     */
     @Override
     public void deleteExistingTask(Context context, String taskId) {
         TaskLocalDataSource.getInstance(context).deleteTask(taskId);

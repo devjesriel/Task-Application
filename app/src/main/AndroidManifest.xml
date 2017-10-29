@@ -3,19 +3,27 @@
     package="com.example.lenovo.task_application">
 
     <application
+        android:name=".Base"
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.TaskList">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".ui.TaskList"
+            android:screenOrientation="portrait">
 
+            <intent-filter>
+
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".ui.TaskAddEdit"/>
+        <activity
+            android:name=".ui.TaskAddEdit"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

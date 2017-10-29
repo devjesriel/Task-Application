@@ -7,6 +7,8 @@ import com.example.lenovo.task_application.enums.TaskType;
 import com.example.lenovo.task_application.presenters.taskaddedit.interactor.ITaskAddEditInteractorResult;
 import com.example.lenovo.task_application.presenters.taskaddedit.interactor.TaskAddEditInteractor;
 
+import javax.inject.Inject;
+
 /**
  * Created by Lenovo on 29/7/2017.
  */
@@ -16,9 +18,13 @@ public class TaskAddEditPresenter implements ITaskAddEditPresenter, ITaskAddEdit
     private ITaskAddEditView iTaskAddEditView;
     private TaskAddEditInteractor taskAddEditInteractor;
 
-    public TaskAddEditPresenter(ITaskAddEditView iTaskAddEditView) {
-        this.iTaskAddEditView = iTaskAddEditView;
+    @Inject
+    public TaskAddEditPresenter() {
         this.taskAddEditInteractor = new TaskAddEditInteractor(this);
+    }
+
+    public void setiTaskAddEditView(ITaskAddEditView iTaskAddEditView) {
+        this.iTaskAddEditView = iTaskAddEditView;
     }
 
     @Override

@@ -20,16 +20,30 @@ public class TaskListInteractor implements ITaskListInteractor, ITaskLocalDataSo
         this.iTaskListInteractorResult = iTaskListInteractorResult;
     }
 
+    /**
+     * Load all task from the task
+     * data source
+     * @param context
+     */
     @Override
     public void loadAllTask(Context context) {
         TaskLocalDataSource.getInstance(context).getAllTask(this);
     }
 
+    /**
+     * After all data has been loaded pass it
+     * to the presenter
+     * @param taskList - Arraylist of tasks
+     */
     @Override
     public void onTaskLoaded(List<Task> taskList) {
         iTaskListInteractorResult.onLoadedData(taskList);
     }
 
+    /**
+     * When loaded but
+     * catches no data
+     */
     @Override
     public void onTaskLoadedButNoData() {
         iTaskListInteractorResult.onLoadedNoData();
