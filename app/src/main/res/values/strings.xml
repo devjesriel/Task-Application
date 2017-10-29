@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Task List</string>
+    <string name="task_list_no_data">You have no task yet!</string>
+    <string name="act_task_list_title">Title</string>
+    <string name="act_task_list_desc">Description</string>
+    <string name="act_task_addedit_success_added">Task succesfully added!</string>
+    <string name="act_task_addedit_success_edit">Task succesfully edited</string>
+    <string name="toolbar_edit">Edit Task</string>
+    <string name="task_null">Task is null</string>
+    <string name="toolbar_add">Add Task</string>
+    <string name="act_task_addedit_deleted">Task successfully deleted!</string>
+</resources>
